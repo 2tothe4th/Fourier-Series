@@ -190,7 +190,7 @@ startup = do
     _ <- initWindow 1280 720 "Fourier Series"
     setTargetFPS 60
     let camera' = Camera2D (V2 640 360) zero 0 100
-    return $ App (calculateCoefficients square 0.01) 0 100 0.25 [] 0 0.875 camera'
+    return $ App (calculateCoefficients (\(t :: Double) -> ((4 * t) :+ 0) * exp (16 * pi * (0 :+ t))) 0.001) 0 1000 0.03125 [] 0 0.875 camera'
 
 shouldClose :: App -> IO Bool
 shouldClose = const windowShouldClose
@@ -200,6 +200,13 @@ tearDown = const $ closeWindow Nothing
 
 --main :: IO ()
 --main = putStrLn "Hello World"
+
+--https://stackoverflow.com/questions/49099661/haskells-read-function-explanation
+--https://stackoverflow.com/questions/14006707/making-a-read-instance-in-haskell
+--https://stackoverflow.com/questions/65659041/parsing-a-series-of-lambda-calculus-terms
+--https://www.reddit.com/r/haskellquestions/comments/k9lp9h/lambda_calculus_parser_issue/
+--https://apotheca.io/articles/haskell-lc-simple.shtml
+--https://codegolf.stackexchange.com/questions/233453/parse-a-lambda-for-correctness
 
 --https://wiki.haskell.org/Template_Haskell
 $(raylibApplication 'startup 'mainLoop 'shouldClose 'tearDown)
